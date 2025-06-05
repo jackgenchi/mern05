@@ -1,9 +1,18 @@
 import React from 'react'
+import { useLocation, Link } from 'react-router-dom'
 import EmployeeFilter from './EmployeeFilter.jsx'
 import EmployeeAdd from './EmployeeAdd.jsx'
 
 function EmployeeTable(props) {
-    const employeeRows = props.employees.map(employee => 
+    // GET THE URL 
+    const { search } = useLocation()
+    // GET THE PARAMETERS FROM THE URL
+    const query = new URLSearchParams(search)
+    // GET THE boolean 'EMPLOYED' pARAMETER SPECIFICALLY
+    const q = query.get('employed')
+    const employeeRows = props.employees
+    .filter(employee => (q?String(employee.currentlyEmployed)===q:true))//check employee value from query. Does it match current employed value in data
+    .map(employee => 
         <EmployeeRow 
             key={employee._id} 
             employee={employee} 
@@ -12,6 +21,7 @@ function EmployeeTable(props) {
         <table className="bordered-table">
             <thead>
                 <tr>
+                    <th>Action</th>
                     <th>Name_Test</th>
                     <th>Extension</th>
                     <th>Email</th>
@@ -34,6 +44,7 @@ function EmployeeRow(props) {
     }
     return (
         <tr>
+            <td><Link to={`/edit/${props.employee._id}`}>Edit</Link></td>
             <td>{props.employee.name}</td>
             <td>{props.employee.extension}</td>
             <td>{props.employee.email}</td>

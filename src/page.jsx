@@ -1,14 +1,18 @@
 import React from "react";
+import { NavLink } from 'react-router-dom'
+// importing to rely on active state
 import Contents from "./Contents.jsx";
 
 function NavBar(){
-    return ( // series of hyper links
+    const Separator = () => <span> | </span>
+    return ( // series of hyper links. nav link to highlight any path that partially matches current path
+        // helpful for nav link has further variations
         <nav>
-            <a href="/">Home</a>
-            {' | '}
-            <a href="/#/employees">All Employees</a>
-            {' | '}
-            <a href="/#/report">All Employees</a>
+            <NavLink end to="/">Home</NavLink>
+            <Separator/>
+            <NavLink to="/employees">All Employees</NavLink>
+            <Separator/>
+            <NavLink to="/report">Reports</NavLink>
         </nav>
     )
 }
